@@ -3,8 +3,9 @@ on:
     branches:
       - master
     paths:
-      - 'config/**'
-      - 'site/**'
+      - 'main.go'
+      - 'go.mod'
+      - 'go.sum'
       - 'Dockerfile'
       - '.github/workflows/**'
 
@@ -19,10 +20,10 @@ jobs:
       uses: actions/checkout@master
 
     - name: Update SHA
-      run: echo $GITHUB_SHA > $GITHUB_WORKSPACE/site/_meta
+      run: echo $GITHUB_SHA > $GITHUB_WORKSPACE/_meta
 
     - name: Build container image
-      run: docker build -t registry.digitalocean.com/asb/static-example:$(echo $GITHUB_SHA | head -c7) .
+      run: docker build -t registry.digitalocean.com/stalkerwebber/echo:$(echo $GITHUB_SHA | head -c7) .
 
     - name: Install doctl
       uses: digitalocean/action-doctl@v2
@@ -33,16 +34,16 @@ jobs:
       run: doctl registry login --expiry-seconds 600
 
     - name: Push image to DigitalOcean Container Registry
-      run: docker push registry.digitalocean.com/asb/static-example:$(echo $GITHUB_SHA | head -c7)
+      run: docker push registry.digitalocean.com/stalkerwebber/echo:$(echo $GITHUB_SHA | head -c7)
 
     - name: Update deployment file
-      run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/asb/static-example:'${TAG}'|' $GITHUB_WORKSPACE/config/deployment.yml
+      run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/stalkerwebber/echo:'${TAG}'|' $GITHUB_WORKSPACE/k8s/k8s-prod.yml
 
     - name: Save DigitalOcean kubeconfig with short-lived credentials
       run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 actions-example-k8s-1-18
 
     - name: Deploy to DigitalOcean Kubernetes
-      run: kubectl apply -f $GITHUB_WORKSPACE/config/deployment.yml
+      run: kubectl apply -f $GITHUB_WORKSPACE/k8s/k8s-prod.yml
 
     - name: Verify deployment
-      run: kubectl rollout status deployment/static-example
+      run: kubectl rollout status deployment/echo
