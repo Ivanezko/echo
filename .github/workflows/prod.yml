@@ -16,10 +16,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-    - name: Checkout master
+    - name: Checkout main branch
       uses: actions/checkout@master
       with:
-        ref: master
+        ref: main
 
     - name: Update SHA
       run: echo $GITHUB_SHA > $GITHUB_WORKSPACE/.github-sha
