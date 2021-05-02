@@ -3,12 +3,12 @@ package main
 import (
 	"fmt"
 	"github.com/davecgh/go-spew/spew"
+	"github.com/gorilla/mux"
+	"github.com/rs/cors"
 	"log"
 	"math/rand"
 	"net/http"
 	"time"
-	"github.com/gorilla/mux"
-	"github.com/rs/cors"
 )
 
 var router *mux.Router
@@ -28,7 +28,7 @@ func main() {
 	router.PathPrefix("/").HandlerFunc(echo)
 
 	c := cors.New(cors.Options{
-		AllowedOrigins: []string{"*"},
+		AllowedOrigins:   []string{"*"},
 		AllowCredentials: true,
 		AllowedHeaders:   []string{"*"},
 		ExposedHeaders:   []string{},
@@ -50,7 +50,7 @@ func echo(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	w.WriteHeader(http.StatusOK)
 
-	log.Print("Requested: " + r.RequestURI)
+	log.Print("Requested : " + r.RequestURI)
 
 	fmt.Fprintf(w, "your request:\n <pre>%+v</pre>\n", spew.Sdump(r))
 
