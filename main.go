@@ -50,8 +50,8 @@ func echo(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	w.WriteHeader(http.StatusOK)
 
-	log.Print("Requested : " + r.RequestURI)
+	log.Print("Requested: " + r.RequestURI)
 
-	fmt.Fprintf(w, "your request:\n <pre>%+v</pre>\n", spew.Sdump(r))
+	fmt.Fprintf(w, "your request PROD:\n <pre>%+v</pre>\n", spew.Sdump(r))
 
 }
