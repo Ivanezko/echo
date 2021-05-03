@@ -54,7 +54,7 @@ func echo(w http.ResponseWriter, r *http.Request) {
 
 	log.Print("Requested: " + r.RequestURI)
 
-	fmt.Fprintf(w, "your request PROD123:\n <pre>%+v</pre>\n", spew.Sdump(r))
+	fmt.Fprintf(w, "your request stage123:\n <pre>%+v</pre>\n", spew.Sdump(r))
 
 }
 
