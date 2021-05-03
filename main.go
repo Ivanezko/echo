@@ -26,9 +26,9 @@ func main() {
 
 	router = mux.NewRouter()
 
-	router.PathPrefix("/").HandlerFunc(echo)
 	router.HandleFunc("/sys-live", live).Methods("GET")
 	router.HandleFunc("/sys-ready", live).Methods("GET")
+	router.HandleFunc("/", echo).Methods("GET")
 
 	c := cors.New(cors.Options{
 		AllowedOrigins:   []string{"*"},
