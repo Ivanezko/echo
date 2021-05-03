@@ -21,7 +21,7 @@ spec:
     matchLabels:
       app: echo
   strategy:
-    type: Rolling
+    type: RollingUpdate
   replicas: 1
   template:
     metadata:
