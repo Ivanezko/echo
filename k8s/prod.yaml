@@ -32,7 +32,8 @@ spec:
         - name: echo
           image: <IMAGE>
           ports:
-            - containerPort: 3000
+            - name: app-port
+              containerPort: 3000
           livenessProbe:
             httpGet:
               path: /sys-live
