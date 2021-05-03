@@ -5,6 +5,7 @@ import (
 	"github.com/davecgh/go-spew/spew"
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
+	"io/ioutil"
 	"log"
 	"math/rand"
 	"net/http"
@@ -61,5 +62,11 @@ func echo(w http.ResponseWriter, r *http.Request) {
 func live(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	w.WriteHeader(http.StatusOK)
-	fmt.Fprintf(w, "%s", "OK")
+
+	content, err := ioutil.ReadFile(".github-sha")
+	if err != nil {
+		log.Print(err)
+	}
+
+	fmt.Fprintf(w, "%s,%s", "OK", string(content))
 }
