@@ -25,6 +25,10 @@ jobs:
     - name: Update SHA
       run: echo $GITHUB_SHA > $GITHUB_WORKSPACE/.github-sha
 
+    - name: Update Dockerfile
+      run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<GITHUB-SHA>|'${TAG}'|' $GITHUB_WORKSPACE/Dockerfile
+
+
     - name: Build container image
       run: docker build -t registry.digitalocean.com/stalkerwebber/echo-stage:$(echo $GITHUB_SHA | head -c7) .
 

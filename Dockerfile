@@ -17,4 +17,6 @@ RUN set -x \
 
 COPY --from=builder /app/apiserver /app/apiserver
 
+ENV GITHUB-SHA=<GITHUB-SHA>
+
 CMD ["/app/apiserver"]

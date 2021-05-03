@@ -9,6 +9,7 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -68,5 +69,5 @@ func live(w http.ResponseWriter, r *http.Request) {
 		log.Print(err)
 	}
 
-	fmt.Fprintf(w, "%s,%s", "OK", string(content))
+	fmt.Fprintf(w, "%s,%s,%s", "OK", string(content), os.Getenv("GITHUB-SHA"))
 }
