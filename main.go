@@ -26,6 +26,8 @@ func main() {
 	router = mux.NewRouter()
 
 	router.PathPrefix("/").HandlerFunc(echo)
+	router.HandleFunc("/sys-live", live).Methods("GET")
+	router.HandleFunc("/sys-ready", live).Methods("GET")
 
 	c := cors.New(cors.Options{
 		AllowedOrigins:   []string{"*"},
@@ -54,4 +56,10 @@ func echo(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Fprintf(w, "your request STAGE1:\n <pre>%+v</pre>\n", spew.Sdump(r))
 
+}
+
+func live(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	w.WriteHeader(http.StatusOK)
+	fmt.Fprintf(w, "%s", "OK")
 }

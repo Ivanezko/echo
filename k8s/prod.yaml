@@ -21,7 +21,7 @@ spec:
     matchLabels:
       app: echo
   strategy:
-    type: Recreate
+    type: Rolling
   replicas: 1
   template:
     metadata:
@@ -33,6 +33,18 @@ spec:
           image: <IMAGE>
           ports:
             - containerPort: 3000
+          livenessProbe:
+            httpGet:
+              path: /sys-live
+              port: app-port
+            initialDelaySeconds: 3
+            periodSeconds: 3
+          readinessProbe:
+            httpGet:
+              path: /sys-ready
+              port: app-port
+            initialDelaySeconds: 3
+            periodSeconds: 3
 ---
 
 apiVersion: networking.k8s.io/v1
