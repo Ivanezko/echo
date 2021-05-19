@@ -5,7 +5,6 @@ import (
 	"github.com/davecgh/go-spew/spew"
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
-	"io/ioutil"
 	"log"
 	"math/rand"
 	"net/http"
@@ -56,7 +55,7 @@ func echo(w http.ResponseWriter, r *http.Request) {
 
 	log.Print("Requested: " + r.RequestURI)
 
-	fmt.Fprintf(w, "your request prod123:\n <pre>%+v</pre>\n", spew.Sdump(r))
+	fmt.Fprintf(w, "your request asd:\n <pre>%+v</pre>\n", spew.Sdump(r))
 
 }
 
@@ -64,10 +63,10 @@ func live(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	w.WriteHeader(http.StatusOK)
 
-	content, err := ioutil.ReadFile(".github-sha")
-	if err != nil {
-		log.Print(err)
-	}
+	/*	content, err := ioutil.ReadFile(".github-sha")
+		if err != nil {
+			log.Print(err)
+		}*/
 
-	fmt.Fprintf(w, "%s,%s,%s", "OK", string(content), os.Getenv("GITHUB-SHA"))
+	fmt.Fprintf(w, "%s,%s", "OK", os.Getenv("GITHUB-SHA"))
 }
